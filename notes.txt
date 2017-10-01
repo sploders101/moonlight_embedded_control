@@ -1,0 +1,9 @@
+This is for my modular servers, to allow them to be nested into each other, conserving resources on my server. The modules need to be structured as stated here:
+
+module.exports = function(app,express) {
+	//express code here, using app. NO DEFINING NEW SERVERS
+	//app.websocket may be used to accept websocket connections (express-ws-routes)
+}
+
+//Project-specific
+https://indomitablespirit.herokuapp.com/

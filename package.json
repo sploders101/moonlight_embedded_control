@@ -1,0 +1,15 @@
+{
+  "name": "serverstructure",
+  "version": "1.0.0",
+  "description": "Allows me to nest many separate modular servers into one master server",
+  "main": "masterServer.js",
+  "scripts": {
+    "start": "node masterServer.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "express-ws-routes": "^1.1.0"
+  }
+}
