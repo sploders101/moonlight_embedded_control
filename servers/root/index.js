@@ -25,7 +25,7 @@ module.exports = function(app,express) {
             moonlight.kill();
             moonlight = null;
         }
-        if(vh~=null) {
+        if(vh!=null) {
             vh.kill();
             vh = null;
         }
