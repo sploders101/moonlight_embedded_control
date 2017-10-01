@@ -16,7 +16,7 @@ module.exports = function(app,express) {
             vh = null;
         }
         moonlight = spawn("moonlight",["stream","-1080"]);
-        vh = spawn("/home/pi/gamestream/usb/vhusbdarm",["-c /home/pi/gamestream/usb/config.ini"]);
+        vh = spawn("/home/pi/gamestream/usb/vhusbdarm",["-c","/home/pi/gamestream/usb/config.ini"]);
 
         res.send("<script>alert(\"Successfully started!\");location.assign(\"/\")</script>");
     });
