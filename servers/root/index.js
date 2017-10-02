@@ -3,30 +3,37 @@ const { spawn } = require('child_process');
 let moonlight;
 let vh;
 let cecClient;
+let state = false;
 
 function start() {
-    if(moonlight!=null) {
-        moonlight.kill();
-        moonlight = null;
+    if(!state) {
+        state=true
+        if(moonlight!=null) {
+            moonlight.kill();
+            moonlight = null;
+        }
+        if(vh!=null) {
+            vh.kill();
+            vh = null;
+        }
+        moonlight = spawn("moonlight",["stream","-1080"]);
+        vh = spawn("/home/pi/gamestream/usb/vhusbdarm",["-c","/home/pi/gamestream/usb/config.ini"]);
+        console.log("started");
     }
-    if(vh!=null) {
-        vh.kill();
-        vh = null;
-    }
-    moonlight = spawn("moonlight",["stream","-1080"]);
-    vh = spawn("/home/pi/gamestream/usb/vhusbdarm",["-c","/home/pi/gamestream/usb/config.ini"]);
-    console.log("started");
 }
 function stop() {
-    if(moonlight!=null) {
-        moonlight.kill();
-        moonlight = null;
+    if(state) {
+        state=false
+        if(moonlight!=null) {
+            moonlight.kill();
+            moonlight = null;
+        }
+        if(vh!=null) {
+            vh.kill();
+            vh = null;
+        }
+        console.log("stopped");
     }
-    if(vh!=null) {
-        vh.kill();
-        vh = null;
-    }
-    console.log("stopped");
 }
 
 //Setup CEC control and renaming
