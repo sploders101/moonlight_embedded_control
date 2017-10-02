@@ -37,10 +37,6 @@ function stop() {
 }
 
 //Setup CEC control and renaming
-//>> source deactivated:
-//>> source activated:
-//key pressed: channel down
-//key pressed: channel up
 cecClient = spawn("cec-client",["-o","GamestreamPi","-t","p"]);
 cecClient.stdout.on("data",function(data) {
     if(data.indexOf(">> source deactivated:")>-1) {
@@ -53,6 +49,12 @@ cecClient.stdout.on("data",function(data) {
         start();
     } else if(data.indexOf("power status changed from 'on'")>-1) {
         stop();
+    } else if(data.indexOf("key pressed: 0")>-1) {
+        spawn("shutdown"["-h","now"]);
+    } else if(data.indexOf("key pressed: 9")>-1) {
+        spawn("shutdown"["-r","now"]);
+    } else if(data.indexOf("key pressed: 1")>-1) {
+        spawn("git",["pull"],{cwd:"/home/pi/gamestream/moonlight_embeddedd_control"});
     }
 });
 
