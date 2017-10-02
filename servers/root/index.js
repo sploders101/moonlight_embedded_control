@@ -41,9 +41,9 @@ cecClient = spawn("cec-client",["-o","GamestreamPi","-t","p"]);
 cecClient.stdout.on("data",function(data) {
     if(data.indexOf(">> source deactivated:")>-1) {
         stop();
-    } else if(data.indexOf(">> source activated:")>-1) {
+    }/* else if(data.indexOf(">> source activated:")>-1) {
         start();
-    } else if(data.indexOf("key pressed: channel down")>-1) {
+    }*/ else if(data.indexOf("key pressed: channel down")>-1) {
         stop();
     } else if(data.indexOf("key pressed: channel up")>-1) {
         start();
