@@ -15,6 +15,7 @@ function start() {
     }
     moonlight = spawn("moonlight",["stream","-1080"]);
     vh = spawn("/home/pi/gamestream/usb/vhusbdarm",["-c","/home/pi/gamestream/usb/config.ini"]);
+    console.log("started");
 }
 function stop() {
     if(moonlight!=null) {
@@ -25,6 +26,7 @@ function stop() {
         vh.kill();
         vh = null;
     }
+    console.log("stopped");
 }
 
 //Setup CEC control and renaming
