@@ -1,12 +1,19 @@
+//Configuration
+const serverMac = "70:85:C2:3C:60:77";
+//Import libraries
 const { spawn } = require('child_process');
 const robotjs = require("robotjs");
+const wol = require("wol");
 
+//Declare global-scope variables
 let moonlight;
 let vh;
 let cecClient;
 let state = false;
 
+//Start GamestreamClient
 function start() {
+    wol.wake(serverMac);
     if(!state) {
         state=true
         if(moonlight!=null) {
@@ -22,6 +29,7 @@ function start() {
         console.log("started");
     }
 }
+//Stop GamestreamClient
 function stop() {
     if(state) {
         state=false
@@ -38,6 +46,24 @@ function stop() {
 }
 
 //Setup CEC control and renaming
+/*
+
+#: Disabled
+
+#Change input to pi: start GamestreamClient
+Change input from pi: stop GamestreamClient
+Turn off TV: stop GamestreamClient
+
+CH+: start GamestreamClient
+CH-: stop GamestreamClient
+
+Remote DPad: Arrow keys and enter
+
+0: Shutdown Pi
+1: Update client from GitHub. Manual server restart required. (Should automatically merge config files)
+9: Restart Pi
+
+*/
 cecClient = spawn("cec-client",["-o","GamestreamPi","-t","p"]);
 cecClient.stdout.on("data",function(data) {
     if(data.indexOf(">> source deactivated:")>-1) { //STOP WHEN INPUT SWITCHED FROM PI
@@ -64,21 +90,31 @@ cecClient.stdout.on("data",function(data) {
         spawn("shutdown",["-h","now"]);
     } else if(data.indexOf("key pressed: 9")>-1) { //REBOOT ON KEY 9
         spawn("shutdown",["-r","now"]);
-    } else if(data.indexOf("key pressed: 1")>-1) { //UPDATE FROM GITHUB
+    } else if(data.indexOf("key pressed: 1")>-1) { //UPDATE FROM GITHUB ON KEY 1
         spawn("git",["pull"],{cwd:"/home/pi/gamestream/moonlight_embeddedd_control",env:process.env});
     }
 });
 
 //Setup http control
+/*
+    /on: start GamestreamClient
+         turn on TV
+         switch input
+    /off: stop GamestreamClient
+          turn off TV
+*/
 module.exports = function(app,express) {
 
     app.use(express.static("./servers/root/www"));
     app.get("/on",function(req,res) {
         start();
+        cecClient.stdin.write("on\n");
+        cecClient.stdin.write("as\n");
         res.send("<script>alert(\"Successfully started!\");location.assign(\"/\")</script>");
     });
     app.get("/off",function(req,res) {
         stop();
+        cecClient.stdin.write("standby\n");
         res.send("<script>alert(\"Successfully stopped!\");location.assign(\"/\")</script>");
     });
 
