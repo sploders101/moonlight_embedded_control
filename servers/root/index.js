@@ -13,7 +13,9 @@ let state = false;
 
 //Start GamestreamClient
 function start() {
-    wol.wake(serverMac);
+    wol.wake(serverMac,function(data) {
+        console.log(data);
+    });
     if(!state) {
         state=true
         if(moonlight!=null) {
