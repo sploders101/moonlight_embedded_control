@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2",
-    "express-ws-routes": "^1.1.0"
+    "express-ws-routes": "^1.1.0",
+    "robotjs": "^0.4.7"
   }
 }
