@@ -1,4 +1,5 @@
 const { spawn } = require('child_process');
+const robotjs = require("robotjs");
 
 let moonlight;
 let vh;
@@ -39,22 +40,32 @@ function stop() {
 //Setup CEC control and renaming
 cecClient = spawn("cec-client",["-o","GamestreamPi","-t","p"]);
 cecClient.stdout.on("data",function(data) {
-    if(data.indexOf(">> source deactivated:")>-1) {
+    if(data.indexOf(">> source deactivated:")>-1) { //STOP WHEN INPUT SWITCHED FROM PI
         stop();
-    }/* else if(data.indexOf(">> source activated:")>-1) {
+    }/* else if(data.indexOf(">> source activated:")>-1) { //START WHEN INPUT SWITCHED TO PI
         start();
-    }*/ else if(data.indexOf("key pressed: channel down")>-1) {
+    }*/ else if(data.indexOf("key pressed: channel down")>-1) { //STOP ON CHANNEL DOWN
         stop();
-    } else if(data.indexOf("key pressed: channel up")>-1) {
+    } else if(data.indexOf("key pressed: channel up")>-1) { //START ON CHANNEL UP
         start();
-    } else if(data.indexOf("power status changed from 'on'")>-1) {
+    } else if(data.indexOf("power status changed from 'on'")>-1) { //STOP ON POWER OFF
         stop();
-    } else if(data.indexOf("key pressed: 0")>-1) {
+    } else if(data.indexOf("key pressed: up")>-1) { //UP
+        robotjs.keyTap("up");
+    } else if(data.indexOf("key pressed: right")>-1) { //RIGHT
+        robotjs.keyTap("right");
+    } else if(data.indexOf("key pressed: down")>-1) { //DOWN
+        robotjs.keyTap("down");
+    } else if(data.indexOf("key pressed: left")>-1) { //LEFT
+        robotjs.keyTap("left");
+    } else if(data.indexOf("key pressed: select")>-1) { //SELECT
+        robotjs.keyTap("enter");
+    } else if(data.indexOf("key pressed: 0")>-1) { //SHUTDOWN ON KEY 0
         spawn("shutdown",["-h","now"]);
-    } else if(data.indexOf("key pressed: 9")>-1) {
+    } else if(data.indexOf("key pressed: 9")>-1) { //REBOOT ON KEY 9
         spawn("shutdown",["-r","now"]);
-    } else if(data.indexOf("key pressed: 1")>-1) {
-        spawn("git",["pull"],{cwd:"/home/pi/gamestream/moonlight_embeddedd_control"});
+    } else if(data.indexOf("key pressed: 1")>-1) { //UPDATE FROM GITHUB
+        spawn("git",["pull"],{cwd:"/home/pi/gamestream/moonlight_embeddedd_control",env:process.env});
     }
 });
 
