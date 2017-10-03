@@ -114,7 +114,7 @@ module.exports = function(app,express) {
     });
     app.get("/off",function(req,res) {
         stop();
-        cecClient.stdin.write("standby\n");
+        cecClient.stdin.write("standby 0\n");
         res.send("<script>alert(\"Successfully stopped!\");location.assign(\"/\")</script>");
     });
 
