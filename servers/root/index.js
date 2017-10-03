@@ -93,6 +93,7 @@ cecClient.stdout.on("data",function(data) {
     } else if(data.indexOf("key pressed: 9")>-1) { //REBOOT ON KEY 9
         spawn("shutdown",["-r","now"]);
     } else if(data.indexOf("key pressed: 1")>-1) { //UPDATE FROM GITHUB ON KEY 1
+        console.log("updating...");
         spawn("git",["pull"],{cwd:"/home/pi/gamestream/moonlight_embedded_control",env:process.env});
     }
 });
