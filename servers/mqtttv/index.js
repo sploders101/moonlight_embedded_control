@@ -11,6 +11,7 @@ client.on("connect",function() {
 });
 client.on("message",function(topic,message) {
     console.log("received "+message+" from topic "+topic);
+    //TV
     if(topic=="lrtv" && message=="on") {
         console.log("tv on");
         http.request({
@@ -22,6 +23,20 @@ client.on("message",function(topic,message) {
         http.request({
             host: "127.0.0.1",
             path: "/tvoff"
+        }).end();
+    }
+    //GameStream
+    if(topic=="lrtv" && message=="gson") {
+        console.log("tv on");
+        http.request({
+            host: "127.0.0.1",
+            path: "/on"
+        }).end();
+    } else if (topic=="lrtv" && message=="gsoff") {
+        console.log("tv off");
+        http.request({
+            host: "127.0.0.1",
+            path: "/off"
         }).end();
     }
 });
