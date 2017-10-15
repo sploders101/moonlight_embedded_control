@@ -126,9 +126,11 @@ module.exports = function(app,express) {
     });
     app.get("/tvon",function(req,res) {
         cecClient.stdin.write("on 0\n");
+        res.send("done");
     });
     app.get("/tvoff",function(req,res) {
         cecClient.stdin.write("standby 0\n");
+        res.send("done");
     });
 
 }
