@@ -3,7 +3,7 @@ module.exports = function(){};
 
 let http = require("http");
 let mqtt = require("mqtt");
-lat client = mqtt.connect("mqtt://openhabianpi.local");
+let client = mqtt.connect("mqtt://openhabianpi.local");
 
 client.on("connect",function() {
     client.subscribe("lrtv");
