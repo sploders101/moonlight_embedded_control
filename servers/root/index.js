@@ -104,7 +104,11 @@ cecClient.stdout.on("data",function(data) {
          turn on TV
          switch input
     /off: stop GamestreamClient
-          turn off TV
+         turn off TV
+    /tvon
+         turn on tv
+    /tvoff
+         turn off tv
 */
 module.exports = function(app,express) {
 
@@ -113,12 +117,18 @@ module.exports = function(app,express) {
         start();
         cecClient.stdin.write("on\n");
         cecClient.stdin.write("as\n");
-        res.send("<script>alert(\"Successfully started!\");location.assign(\"/\")</script>");
+        res.send("<script>alert(\"Successfully started!\");/*location.assign(\"/\")*/</script>");
     });
     app.get("/off",function(req,res) {
         stop();
         cecClient.stdin.write("standby 0\n");
-        res.send("<script>alert(\"Successfully stopped!\");location.assign(\"/\")</script>");
+        res.send("<script>alert(\"Successfully stopped!\");/*location.assign(\"/\")*/</script>");
+    });
+    app.get("/tvon",function(req,res) {
+        cecClient.stdin.write("on 0\n");
+    });
+    app.get("/tvoff",function(req,res) {
+        cecClient.stdin.write("standby 0\n");
     });
 
 }
