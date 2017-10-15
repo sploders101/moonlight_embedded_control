@@ -8,6 +8,10 @@ var servers = [
         name: "",
         location: "./servers/root"
     },
+    {
+        name: "/null",
+        location: "./servers/mqtttv"
+    },
 ];
 
 var express = require("express");
