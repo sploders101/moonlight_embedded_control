@@ -11,7 +11,7 @@
   "dependencies": {
     "express": "^4.15.2",
     "express-ws-routes": "^1.1.0",
-    "mqtt": "^2.13.0",
+    "mqtt": "^2.15.0",
     "robotjs": "^0.4.7",
     "wol": "^1.0.3"
   }
